@@ -1,0 +1,29 @@
+const fs = require("fs");
+
+let dataObject = {"latitude":37.8267,"longitude":-122.4233,"timezone":"America/Los_Angeles","offset":-7,"daily":{"summary":"No precipitation throughout the week, with temperatures peaking at 79°F on Sunday.","icon":"clear-day","data":[{"time":1495090800,"summary":"Clear throughout the day.","icon":"clear-day","sunriseTime":1495112307,"sunsetTime":1495163800,"moonPhase":0.75,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":51.49,"temperatureMinTime":1495108800,"temperatureMax":71.14,"temperatureMaxTime":1495148400,"apparentTemperatureMin":51.49,"apparentTemperatureMinTime":1495108800,"apparentTemperatureMax":71.14,"apparentTemperatureMaxTime":1495148400,"dewPoint":47.22,"humidity":0.67,"windSpeed":5.03,"windBearing":288,"visibility":9.82,"cloudCover":0.1,"pressure":1015.08,"ozone":338.03},{"time":1495177200,"summary":"Partly cloudy in the morning.","icon":"partly-cloudy-night","sunriseTime":1495198663,"sunsetTime":1495250251,"moonPhase":0.78,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":53.13,"temperatureMinTime":1495195200,"temperatureMax":73.19,"temperatureMaxTime":1495231200,"apparentTemperatureMin":53.13,"apparentTemperatureMinTime":1495195200,"apparentTemperatureMax":73.19,"apparentTemperatureMaxTime":1495231200,"dewPoint":51.86,"humidity":0.7,"windSpeed":4.45,"windBearing":298,"visibility":9.98,"cloudCover":0.21,"pressure":1014.22,"ozone":332.23},{"time":1495263600,"summary":"Partly cloudy in the morning.","icon":"partly-cloudy-night","sunriseTime":1495285020,"sunsetTime":1495336702,"moonPhase":0.81,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":55.26,"temperatureMinTime":1495278000,"temperatureMax":78.79,"temperatureMaxTime":1495321200,"apparentTemperatureMin":55.26,"apparentTemperatureMinTime":1495278000,"apparentTemperatureMax":78.79,"apparentTemperatureMaxTime":1495321200,"dewPoint":54.86,"humidity":0.71,"windSpeed":4.15,"windBearing":257,"visibility":10,"cloudCover":0.2,"pressure":1013.82,"ozone":333.41},{"time":1495350000,"summary":"Partly cloudy in the morning.","icon":"partly-cloudy-day","sunriseTime":1495371379,"sunsetTime":1495423151,"moonPhase":0.85,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":53.35,"temperatureMinTime":1495368000,"temperatureMax":79.02,"temperatureMaxTime":1495400400,"apparentTemperatureMin":53.35,"apparentTemperatureMinTime":1495368000,"apparentTemperatureMax":79.02,"apparentTemperatureMaxTime":1495400400,"dewPoint":54.05,"humidity":0.72,"windSpeed":4.51,"windBearing":245,"visibility":10,"cloudCover":0.26,"pressure":1013.08,"ozone":351.41},{"time":1495436400,"summary":"Clear throughout the day.","icon":"clear-day","sunriseTime":1495457740,"sunsetTime":1495509601,"moonPhase":0.89,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":56.44,"temperatureMinTime":1495454400,"temperatureMax":75.71,"temperatureMaxTime":1495486800,"apparentTemperatureMin":56.44,"apparentTemperatureMinTime":1495454400,"apparentTemperatureMax":75.71,"apparentTemperatureMaxTime":1495486800,"dewPoint":50.54,"humidity":0.64,"windSpeed":5.14,"windBearing":236,"cloudCover":0.02,"pressure":1012.63,"ozone":345.67},{"time":1495522800,"summary":"Clear throughout the day.","icon":"clear-day","sunriseTime":1495544102,"sunsetTime":1495596049,"moonPhase":0.92,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":55.51,"temperatureMinTime":1495540800,"temperatureMax":67.29,"temperatureMaxTime":1495576800,"apparentTemperatureMin":55.51,"apparentTemperatureMinTime":1495540800,"apparentTemperatureMax":67.29,"apparentTemperatureMaxTime":1495576800,"dewPoint":50.58,"humidity":0.71,"windSpeed":6.75,"windBearing":239,"cloudCover":0.01,"pressure":1012.96,"ozone":337.16},{"time":1495609200,"summary":"Clear throughout the day.","icon":"clear-day","sunriseTime":1495630466,"sunsetTime":1495682497,"moonPhase":0.96,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":55.29,"temperatureMinTime":1495627200,"temperatureMax":64.78,"temperatureMaxTime":1495663200,"apparentTemperatureMin":55.29,"apparentTemperatureMinTime":1495627200,"apparentTemperatureMax":64.78,"apparentTemperatureMaxTime":1495663200,"dewPoint":50.69,"humidity":0.74,"windSpeed":6.49,"windBearing":235,"cloudCover":0,"pressure":1012.3,"ozone":336.06},{"time":1495695600,"summary":"Clear throughout the day.","icon":"clear-day","sunriseTime":1495716832,"sunsetTime":1495768944,"moonPhase":0.01,"precipIntensity":0,"precipIntensityMax":0,"precipProbability":0,"temperatureMin":54.63,"temperatureMinTime":1495713600,"temperatureMax":66.28,"temperatureMaxTime":1495753200,"apparentTemperatureMin":54.63,"apparentTemperatureMinTime":1495713600,"apparentTemperatureMax":66.28,"apparentTemperatureMaxTime":1495753200,"dewPoint":50.01,"humidity":0.72,"windSpeed":6.47,"windBearing":241,"cloudCover":0,"pressure":1012.03,"ozone":337.42}]}};
+// console.log(dataObject);
+// console.log(dataObject.daily.data.length)
+function editDate(dateString) {
+    let arr = dateString.split('/');
+    arr[2]= arr[2].split(',')[0]
+    let date = arr[2]+'-'+arr[0] +'-'+arr[1]
+    return date
+}
+
+
+dataObject.daily.data.map((dailyData)=>{
+    var myDate = new Date( dailyData.time *1000);
+    console.log( editDate(myDate.toLocaleString() )+","+dailyData.temperatureMax)
+    return dailyData
+})
+    // fs.readFile('./data.txt', 'utf8', function(err, data) {  
+    // if (err) throw err;
+    // console.log("data=>",data)
+    // })
+
+    //   fs.writeFile("data2.csv", stringData2, 'utf8', (err) => {
+    //               console.log("writing file")
+    //         if (err) throw err;
+    //         console.log('Virus attack!');
+
+    // });

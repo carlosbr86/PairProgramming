@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <svg width="960" height="500"></svg>
+    <head>
+        <title>Front END</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        
+        <script type="text/javascript" src="d3.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        
+    <!--JQuery-->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <link rel="stylesheet" href="/d3.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--JQuery-->
+    <style> /* set the CSS */
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.area {
+  fill: lightsteelblue;
+}
+
+</style>
+
+    </head>
+    <body>
+        <h1>SVG</h1>
+        <svg width="960" height="500"></svg>
+        <svg width="100" height="100">
+            <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+        </svg>
+        <!--<button > Swap </button >-->
+        <p>Start Date: <input type="text" id="datepickerStart" value="2017-04-30"></p> 
+        <p> Final   Date: <input type="text" id="datepickerFinal" value="2017-05-20"></p>
+        <p> Base Currency: <input type="text" id="baseCurrency" value="CAD"></p>
+        <p> Symbol Currency: <input type="text" id="symbolCurrency" value="BRL"></p>
+        <button id="submitForm"> Submit Dates </button>
+
+    <script>
+
+        
+        console.log("Front End")
+        let startDate = '';
+        let finalDate = ''
+
+        $(document).ready(function () {
+            $( function() {
+                $( "#datepickerStart" ).datepicker({
+                            dateFormat: "yy-mm-dd"
+                        });
+                });
+
+                $( function() {
+                    $( "#datepickerFinal" ).datepicker({
+                        dateFormat: "yy-mm-dd"
+                    });
+                } );
+
+                $('#submitForm').click(function () {
+                    startDate =  $("input[id = 'datepickerStart']").val();
+                    finalDate = $("input[id = 'datepickerFinal']").val();
+                    baseCurrency = $("input[id = 'baseCurrency']").val();      
+                    symbolCurrency = $("input[id = 'symbolCurrency']").val();                                  
+                    console.log(startDate,finalDate,baseCurrency,symbolCurrency)
+                    axios.post("http://localhost:2222/postdata" , 
+                        {
+                            startDate: startDate,
+                            finalDate: finalDate,
+                            baseCurrency: baseCurrency,
+                            symbolCurrency: symbolCurrency
+                        }
+                    );
+                    setTimeout(()=>{ location.reload(true);}, 50);
+                })
+            })  
+    </script>
+    </body>
+</html>
