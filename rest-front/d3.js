@@ -1,9 +1,10 @@
 
-var svg = d3.select("svg"),
+var svg = d3.select("body").append("svg"),
     margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom,
+    width = 600 - margin.left - margin.right,
+    height = 270 - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 var parseTime = d3.timeParse("%Y-%m-%d");
 
@@ -51,12 +52,4 @@ d3.csv("data.csv", function(d) {
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 1.5)
       .attr("d", line);
-
-// var svg2 = d3.select("body").append("svg")
-//     .attr("width", width + margin.left + margin.right)
-//     .attr("height", height + margin.top + margin.bottom)
-//   .append("g")
-//     .attr("transform",
-//           "translate(" + margin.left + "," + margin.top + ")");
-
 });
