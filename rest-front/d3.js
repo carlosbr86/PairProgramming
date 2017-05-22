@@ -52,4 +52,5 @@ d3.csv("data.csv", function(d) {
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 1.5)
       .attr("d", line);
+console.log("D3=>",d3);
 });

@@ -1,5 +1,6 @@
 
 // Set the dimensions of the canvas / graph
+console.log("D3=>",d3);
 var margin = {top: 30, right: 20, bottom: 30, left: 50}, 
     width = 600 - margin.left - margin.right,            //600 hardCode Data
     height = 270 - margin.top - margin.bottom;           //270 hardCode Data
