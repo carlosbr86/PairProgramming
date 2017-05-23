@@ -4,23 +4,62 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import $ from "jquery";
 import 'react-datepicker/dist/react-datepicker.css';
-
+import axios from 'axios';
 
 // import './App.css';
 // import {Link} from 'react-router';
+class Calendar extends React.Component {
+  constructor () {
+    super();
+    this.state = {
+      date: moment("2017-05-22")
+    };
+    console.log(this.state.startDate);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit= this.handleSubmit.bind(this);
 
+ }
 
+ handleChange(date) {
+    this.setState({
+      date: date,
+    });
+  }
+handleSubmit(){
+  this.props.submitHandler(
+    this.state.date,
+  )
+}
+  
+ 
+ render() {
+  return (
+    <div>
+      <DatePicker id={this.props.definingID}
+        dateFormat="YYYY-MM-DD"
+        selected={this.state.date}
+        onChange={this.handleChange}
+      />
+    </div>)
+  }
+} 
 
 class D3Component extends Component { 
+    constructor (props){
+    super (props);
+    this.state = {
+
+    }
   
-  
+    // this.handleSubmit = this.handleSubmit.bind(this);
+  }
   setContext() {
-    let svg=d3.select(this.refs.arc).append("svg")
-.attr("width", '700px') //width + margin.left + margin.right
-        .attr("height", '400px') //height + margin.top + margin.bottom
-    .append("g")
-        .attr("transform",
-              "translate(150,150 )"); //" + margin.left + "," + margin.top + ")"
+    let svg=d3.select(this.refs.d3Ref).append("svg")
+      .attr("width", '700px') //width + margin.left + margin.right
+              .attr("height", '400px') //height + margin.top + margin.bottom
+          .append("g")
+              .attr("transform",
+                    "translate(150,150 )"); //" + margin.left + "," + margin.top + ")"
     return svg
 
   }
@@ -30,10 +69,10 @@ class D3Component extends Component {
   var margin={top: 30, right: 20, bottom: 30, left: 50}, 
     width=600 - margin.left - margin.right,            //600 hardCode Data
     height=270 - margin.top - margin.bottom;           //270 hardCode Data
-  var parseTime=d3.time.format("%Y-%m-%d").parse;       // Changed parseDate to parseTime
+  var parseTime=d3.time.format("%Y-%m-%d").parse;     
   // Set the ranges
-  var x=d3.time.scale().rangeRound([0, width]);         // Changed range. to rangeRound            - older code , only d3 instead d3.time
-  var y=d3.scale.linear().rangeRound([height, 0]);      // Changed range. to rangeRound
+  var x=d3.time.scale().rangeRound([0, width]);         
+  var y=d3.scale.linear().rangeRound([height, 0]);      
   // Define the axis
   var xAxis=d3.svg.axis().scale(x).orient("bottom").ticks(5);
   var yAxis=d3.svg.axis().scale(y).orient("left").ticks(5);
@@ -43,27 +82,27 @@ class D3Component extends Component {
     .y(function(d) { return y(d.value); });
 
   // Get the data
-  d3.csv("data.csv", function(error, data) { 
+    console.log("data xxxxxxx",this.props.data,"data xxxxxxx");
+    d3.csv("data.csv", function(error, data) {  
       data.forEach(function(d) {
           d.date = parseTime(d.date);
           d.value = +d.value;
       });
       // Scale the range of the data
-
       x.domain(d3.extent(data, function(d) { return d.date; })); 
-      // y.domain([0, d3.max(data, function(d) { return d.value; })]); // without Y axis scale
       y.domain( d3.extent(data, function(d) { return d.value; }));
 
     return context.append("path")
-          .attr("class", "line")                //different
-          .datum(data)             //check this after
+          .attr("class", "line")           
+          .datum(data)  
           .attr("fill", "none")
           .attr("stroke", "steelblue")
           .attr("stroke-linejoin", "round")
           .attr("stroke-linecap", "round")
           .attr("stroke-width", 1.5)
           .attr("d", valueline(data));
-          });
+          
+        }) // Close d3.csv read DATA
   }
 
   setXAxis(context) {
@@ -121,6 +160,7 @@ class D3Component extends Component {
   .y(function(d) { return y(d.value); });
 
   // Get the data
+
   d3.csv("data.csv", function(error, data) { 
       data.forEach(function(d) {
           d.date=parseTime(d.date);
@@ -129,7 +169,6 @@ class D3Component extends Component {
       // Scale the range of the data
 
       x.domain(d3.extent(data, function(d) { return d.date; })); 
-      // y.domain([0, d3.max(data, function(d) { return d.value; })]); // without Y axis scale
       y.domain( d3.extent(data, function(d) { return d.value; }));
 
     context.append("g")
@@ -163,8 +202,7 @@ class D3Component extends Component {
 
     return (
       <div>
-        <h2> ARC </h2>
-        <div ref="arc"></div>
+        <div ref="d3Ref"></div>
 
       </div>
     )
@@ -173,9 +211,7 @@ class D3Component extends Component {
 
 class Form extends Component {
   sendform(){
-  //   console.log("Front End")
-  //       let startDate = '';
-  //       let finalDate = ''
+
   //       $(document).ready(function () {
   //           $(function () {
   //               $("#datepickerStart").datepicker({
@@ -187,31 +223,13 @@ class Form extends Component {
   //                   dateFormat: "yy-mm-dd"
   //               });
   //           });
-  //           $('#submitForm').click(function () {
-  //               startDate = $("input[id = 'datepickerStart']").val();
-  //               finalDate = $("input[id = 'datepickerFinal']").val();
-  //               baseCurrency = $("select[id = 'baseCurrency']").val();
-  //               symbolCurrency = $("select[id = 'symbolCurrency']").val();
-  //               console.log(startDate, finalDate, baseCurrency, symbolCurrency)
-  //               axios.post("http://localhost:2222/postdata",
-  //                   {
-  //                       startDate: startDate,
-  //                       finalDate: finalDate,
-  //                       baseCurrency: baseCurrency,
-  //                       symbolCurrency: symbolCurrency
-  //                   }
-  //               );
-  //               setTimeout(() => { location.reload(true); }, 100);
-  //           })
-  //       })
+
   }
   
   render(){
     return(
       <div>
-        <p>Start Date: <input type="text" id="datepickerStart" /></p> {/*value="2017-04-30"*/}
-        <p> Final Date: <input type="text" id="datepickerFinal" /></p>{/*value="2017-05-20"*/}
-
+  
         <p> Base Currency:</p>
         <select id ="baseCurrency" name="baseCurrency">
             <option value="AUD"> AUD - Australian Dollar </option>
@@ -287,28 +305,6 @@ class Form extends Component {
   }
 }
 
-// class Calendar extends Component {
-//   constructor (props) {
-//     super (props)
-//     this.state= {
-//       startDate: moment ()
-//     };
-//       this.handleChange = this.handleChange.bind(this);
-
-//   }
-
-//   handleChange(date) {
-//     this.setState({
-//       startDate: date
-//     });
-//   }
-//   render () {
-//     return <DatePicker selected={this.state.startDate} onChange= {this.handleChange}/>
-//   }  
-// }
-
-
-
 class App extends Component {
   constructor (props){
     super (props);
@@ -316,45 +312,62 @@ class App extends Component {
       startDate: "2017-04-30",
       finalDate: "2017-05-20",
       baseCurrency: "CAD",
-      symbolCurrency: "BRL"
+      symbolCurrency: "BRL",
+      data:""
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
   }
-  handleSubmit(){
-    console.log("datepickerStart=>",document.getElementById("datepickerStart").value);
-    // startDate = $("input[id = 'datepickerStart']").val();
-    // finalDate = $("input[id = 'datepickerFinal']").val();
-    // baseCurrency = $("select[id = 'baseCurrency']").val();
-    // symbolCurrency = $("select[id = 'symbolCurrency']").val();
+ submitHandler(start, final){
+    console.log(start, final);
   }
 
-    componentDidMount() {
-      // console.log($.datepicker);
-      //     $(document).ready(function () {
-      //       $(function () {
-      //           $("#datepickerStart").datepicker({
-      //               dateFormat: "yy-mm-dd"
-      //           });
-      //       });
-      //       $(function () {
-      //           $("#datepickerFinal").datepicker({
-      //               dateFormat: "yy-mm-dd"
-      //           });
-      //       });
-      //     });
+  handleSubmit(){
+    
+    let startDate = document.getElementById("datepickerStart").value;
+    let finalDate = document.getElementById("datepickerFinal").value;
+    let e = document.getElementById("baseCurrency");
+    let baseCurrency = e.options[e.selectedIndex].value;
+    let f = document.getElementById("symbolCurrency");
+    let symbolCurrency = f.options[f.selectedIndex].value;
+    console.log(startDate,finalDate,baseCurrency,symbolCurrency);
+    axios.post("http://localhost:2222/postdata",
+      {
+          startDate: startDate,
+          finalDate: finalDate,
+          baseCurrency: baseCurrency,
+          symbolCurrency: symbolCurrency
+      }
+    );
+		this.setState({
+			startDate: startDate,
+      finalDate: finalDate,
+      baseCurrency: baseCurrency,
+      symbolCurrency: symbolCurrency
+		})
+  }
+
+    componentDidUpdated() {
+        d3.csv("data.csv", (error, data)=> {  
+          if(data){
+            this.setState({
+              data:data
+            })
+          }
+        }); 
   }
   render() {
     return (
       <div className="App">
         {/*{this.props.children} */}
         <h2>Currency Graph</h2>
-        <D3Component />
-        <Form handleSubmit={this.handleSubmit}/>
+        <D3Component data={this.state.data}/>
+        <p>Start Date: <Calendar definingID={"datepickerStart"} date={"2017-05-01"} /> </p>
+        <p> Final Date: <Calendar definingID={"datepickerFinal"} date={"2017-05-23"} /></p>
+        <Form handleSubmit={this.handleSubmit} formData={this.state} />
       </div>
     );
   };
 };
 
-
 export default App;
-//################################################### APP ####################################################

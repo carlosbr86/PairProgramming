@@ -12,13 +12,13 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser()); //MidleWare
 
-app.get('/gettodos', (req, res) => {
-    console.log("somebody asked for good dogs");
-    fs.readFile('todolist.json', 'utf8', function (err, data) {
-        if (err) throw err;
-        res.send(JSON.parse(data));
-    });
-});
+// app.get('/getdata', (req, res) => {
+//     console.log("somebody asked for good dogs");
+//     fs.readFile('todolist.json', 'utf8', function (err, data) {
+//         if (err) throw err;
+//         res.send(JSON.parse(data));
+//     });
+// });
 
 app.post('/postdata', (req, res) => {
     console.log("Post Request - Currency")
@@ -51,7 +51,7 @@ app.post('/postdata', (req, res) => {
         console.log("date=>",date);
         newData= newData.join('\n')
 
-        fs.writeFile("../rest-front/data.csv", newData, 'utf8', (err) => {
+        fs.writeFile("../react-rest-front/public/data.csv", newData, 'utf8', (err) => {
             console.log("writing file")
             if (err) throw err;
             console.log('Virus attack!');
