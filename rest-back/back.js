@@ -12,14 +12,6 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser()); //MidleWare
 
-// app.get('/getdata', (req, res) => {
-//     console.log("somebody asked for good dogs");
-//     fs.readFile('todolist.json', 'utf8', function (err, data) {
-//         if (err) throw err;
-//         res.send(JSON.parse(data));
-//     });
-// });
-
 app.post('/postdata', (req, res) => {
     console.log("Post Request - Currency")
     console.log(req.body);
@@ -53,14 +45,10 @@ app.post('/postdata', (req, res) => {
 
         fs.writeFile("../react-rest-front/public/data.csv", newData, 'utf8', (err) => {
             console.log("writing file")
-            if (err) throw err;
-            console.log('Virus attack!');
-        });// Remember catch erro!
+            if (err) console.log( err);
+        });
     });      
-    // fs.writeFile('todolist.json', JSON.stringify(req.body), 'utf8', (err) => {
-    //     if (err) throw err;
-    //     console.log('Writing file!');
-    // });
+
 });
 
 app.listen(2222, () => {
